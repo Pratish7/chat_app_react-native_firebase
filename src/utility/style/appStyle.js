@@ -1,10 +1,8 @@
 import { Dimensions } from "react-native";
-import * as color from "../colors";
-import { smallDeviceHeight } from "../constants";
+import colors from '../colors/colors';
+import smallDeviceHeight from '../constants/constants';
 
-export const { height: deviceHeight, width: deviceWidth } = Dimensions.get(
-  "window"
-);
+const deviceDimensions = { height: deviceHeight, width: deviceWidth } = Dimensions.get("window");
 
 const getFieldDimesions = () => {
   if (deviceHeight > smallDeviceHeight) {
@@ -25,11 +23,19 @@ const getFieldDimesions = () => {
     };
   }
 };
-export const fieldBgColor = color.DARK_GRAY;
-export const fieldTextColor = color.WHITE;
-export const logoBgColor = color.DARK_GRAY;
-export const fieldHeight = getFieldDimesions().fieldHeight;
-export const fieldMarginVertical = getFieldDimesions().fieldMarginVertical;
-export const btnMarginVertical = getFieldDimesions().btnMarginVertical;
-export const btnBorderRadius = getFieldDimesions().btnBorderRadius;
-export const btnHeight = getFieldDimesions().btnHeight;
+
+
+
+const appStyle= {
+  fieldBgColor: colors.DARK_GRAY,
+  fieldTextColor: colors.WHITE,
+  logoBgColor: colors.DARK_GRAY,
+  fieldHeight: getFieldDimesions().fieldHeight,
+  fieldMarginVertical: getFieldDimesions().fieldMarginVertical,
+  btnMarginVertical: getFieldDimesions().btnMarginVertical,
+  btnBorderRadius: getFieldDimesions().btnBorderRadius,
+  btnHeight: getFieldDimesions().btnHeight,
+  deviceDimensions
+}
+
+export default appStyle;
