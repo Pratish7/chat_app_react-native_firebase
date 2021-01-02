@@ -1,4 +1,4 @@
-import * as color from '../colors';
+import colors from '../colors/colors';
 import { StyleSheet } from 'react-native';
 
 const globalStyle = StyleSheet.create({
@@ -72,7 +72,7 @@ const globalStyle = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: color.BLACK,
+    backgroundColor: colors.BLACK,
     zIndex: 1,
   },
 
