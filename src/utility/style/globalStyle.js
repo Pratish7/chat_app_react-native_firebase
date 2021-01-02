@@ -1,7 +1,7 @@
 import * as color from '../colors';
 import { StyleSheet } from 'react-native';
 
-export default StyleSheet.create({
+const globalStyle = StyleSheet.create({
 
   container: {
     position: 'relative',
@@ -187,3 +187,5 @@ export default StyleSheet.create({
   b_r_25: { borderRadius: 25 },
   b_r_30: { borderRadius: 30 },
 });
+
+export default globalStyle;
