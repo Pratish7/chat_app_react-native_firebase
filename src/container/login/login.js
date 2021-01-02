@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import colors from '../../utility/colors/colors';
 import globalStyle from '../../utility/style/globalStyle';
 import Logo from '../../component/logo/logo'
 import InputField from '../../component/input/input';
 import Button from '../../component/button/button';
+import {LOADING_START} from '../../context/actions/type';
+import { Store } from '../../context/store/store';
 
 const login = ({ navigation }) => {
+
+    // const globalState = useContext(Store);
+    // const { dispatchLoaderAction } = globalState;
+
     const [credentials, setCreadentials] = useState({
         email: '',
         password: ''
@@ -25,7 +31,9 @@ const login = ({ navigation }) => {
     const loginPressHandeler = () => {
         if (!email) alert('Email can\'t be blank');
         else if (!password) alert('Password can\'t be blank');
-        else alert(JSON.stringify(credentials));
+        // else dispatchLoaderAction({
+        //     type: LOADING_START
+        // });
     }
 
 
