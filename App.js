@@ -1,7 +1,14 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import NavContainer from './src/navigation/naviagtion'
+import NavContainer from './src/navigation/naviagtion';
+import Loader from './src/component/loader/loader';
+import {StoreProvider} from './src/context/store/store';
 
-const App = () => <NavContainer />;
+
+const App = () => (
+    <StoreProvider>
+        <NavContainer />
+        <Loader />
+    </StoreProvider>
+);
 
 export default App;
