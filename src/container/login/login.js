@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, Text, View } from 'react-native';
 import colors from '../../utility/colors/colors';
 import globalStyle from '../../utility/style/globalStyle';
 import Logo from '../../component/logo/logo'
@@ -10,11 +10,15 @@ import { Store } from '../../context/store/store';
 import loginRequest from '../../network/login/login';
 import { keys, setAsyncStorage } from '../../asyncStorage/async';
 import { setUniqueValue } from '../../utility/constants/constants';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { keyboardVerticalOffset } from '../../utility/constants/constants';
 
 const login = ({ navigation }) => {
 
     // const globalState = useContext(Store);
     // const { dispatchLoaderAction } = globalState;
+
+    const [showLogo, toggleLogo] = useState(true);
 
     const [credentials, setCreadentials] = useState({
         email: '',
@@ -63,36 +67,63 @@ const login = ({ navigation }) => {
         }
     }
 
+    const focusHandeler = () => {
+        setTimeout(() => {
+            toggleLogo(false);
+        }, 200);
+    }
+
+    const blurHandeler = () => {
+        setTimeout(() => {
+            toggleLogo(true);
+        }, 200);
+    }
 
 
     return (
-        <SafeAreaView style={[globalStyle.flex1, { backgroundColor: colors.BLACK }]}>
-            <View style={[globalStyle.containerCentered]} >
-                <Logo />
-            </View>
-            <View style={[globalStyle.flex2, globalStyle.sectionCentered]}>
-                <InputField
-                    placeholder='Email'
-                    value={email}
-                    onChangeText={(text) => onChangeHandeler('email', text)}
-                />
-                <InputField
-                    placeholder='Password'
-                    secureTextEntry={true}
-                    value={password}
-                    onChangeText={(text) => onChangeHandeler('password', text)}
-                />
-                <Button title='Login' onPress={() => loginPressHandeler()} />
-                <Text style={{
-                    fontSize: 20,
-                    fontWeight: 'bold',
-                    color: colors.LIGHT_GREEN
-                }}
-                    onPress={() => navigation.navigate('Signup')}>
-                    Sign Up
+        <KeyboardAvoidingView
+            style={[globalStyle.flex1, { backgroundColor: colors.BLACK }]}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={keyboardVerticalOffset}
+        >
+            {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
+            <SafeAreaView style={[globalStyle.flex1, { backgroundColor: colors.BLACK }]}>
+                {
+                    showLogo && (
+                        <View style={[globalStyle.containerCentered]} >
+                            <Logo />
+                        </View>
+                    )
+                }
+                <View style={[globalStyle.flex2, globalStyle.sectionCentered]}>
+                    <InputField
+                        placeholder='Email'
+                        value={email}
+                        onChangeText={(text) => onChangeHandeler('email', text)}
+                        onFocus={() => focusHandeler()}
+                        onBlur={() => blurHandeler()}
+                    />
+                    <InputField
+                        placeholder='Password'
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={(text) => onChangeHandeler('password', text)}
+                        onFocus={() => focusHandeler()}
+                        onBlur={() => blurHandeler()}
+                    />
+                    <Button title='Login' onPress={() => loginPressHandeler()} />
+                    <Text style={{
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                        color: colors.LIGHT_GREEN
+                    }}
+                        onPress={() => navigation.navigate('Signup')}>
+                        Sign Up
                 </Text>
-            </View>
-        </SafeAreaView>
+                </View>
+            </SafeAreaView>
+            {/* </TouchableWithoutFeedback> */}
+        </KeyboardAvoidingView>
     );
 };
 
