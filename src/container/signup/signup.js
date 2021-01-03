@@ -50,7 +50,14 @@ const Signup = ({ navigation }) => {
                     let uid = firebase.auth().currentUser.uid;
                     let profileImage = '';
                     AddUser(name, email, uid, profileImage)
-                        .then(() => {
+                        .then((res) => {
+                            if (!res.additonalUserInfo) {
+                                // dispathLoaderAction({
+                                //     type: LOADING_STOP
+                                // });
+                                alert(res);
+                                return;
+                            }
                             setAsyncStorage(keys.uuid, uid);
                             setUniqueValue(uid);
                             // dispathLoaderAction({
