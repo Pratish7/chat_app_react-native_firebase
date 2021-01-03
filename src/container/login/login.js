@@ -5,8 +5,11 @@ import globalStyle from '../../utility/style/globalStyle';
 import Logo from '../../component/logo/logo'
 import InputField from '../../component/input/input';
 import Button from '../../component/button/button';
-import {LOADING_START} from '../../context/actions/type';
+import { LOADING_START } from '../../context/actions/type';
 import { Store } from '../../context/store/store';
+import loginRequest from '../../network/login/login';
+import { keys, setAsyncStorage } from '../../asyncStorage/async';
+import { setUniqueValue } from '../../utility/constants/constants';
 
 const login = ({ navigation }) => {
 
@@ -31,9 +34,26 @@ const login = ({ navigation }) => {
     const loginPressHandeler = () => {
         if (!email) alert('Email can\'t be blank');
         else if (!password) alert('Password can\'t be blank');
-        // else dispatchLoaderAction({
-        //     type: LOADING_START
-        // });
+        else {
+            // dispatchLoaderAction({
+            //     type: LOADING_START
+            // });
+            loginRequest(email, password)
+                .then((res) => {
+                    setAsyncStorage(keys.uuid, res.user.uid);
+                    setUniqueValue(res.user.uid);
+                    // dispatchLoaderAction({
+                    //     type: LOADING_STOP
+                    // });
+                    navigation.replace('Dashboard');
+                })
+                .catch((err) => {
+                    // dispatchLoaderAction({
+                    //     type: LOADING_STOP
+                    // });
+                    alert(err);
+                })
+        }
     }
 
 

@@ -56,7 +56,7 @@ const Signup = ({ navigation }) => {
                             // dispathLoaderAction({
                             //     type: LOADING_STOP
                             // });
-                            navigation.navigate('Dashboard');
+                            navigation.replace('Dashboard');
                         })
                         .catch((err) => {
                             // dispathLoaderAction({
