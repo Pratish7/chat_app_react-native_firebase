@@ -5,6 +5,7 @@ import Login from '../container/login/login';
 import Signup from '../container/signup/signup';
 import Dashboard from '../container/dashboard/dashboard';
 import colors from '../utility/colors/colors';
+import Splash from '../container/splash/splash';
 
 const Stack = createStackNavigator();
 
@@ -24,7 +25,10 @@ function NavContainer() {
                     }
                 }}
             >
-
+                <Stack.Screen
+                    name='Splash'
+                    component={Splash}
+                    options={{ headerShown: false }} />
                 <Stack.Screen
                     name='Login'
                     component={Login}
