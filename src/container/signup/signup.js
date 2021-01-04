@@ -46,41 +46,41 @@ const Signup = ({ navigation }) => {
         else if (password !== password) alert('Passwords didn\'t match')
         else {
             // dispatchLoaderAction({
-            //     type: LOADING_START
+            //     type: LOADING_START,
             // });
             signupRequest(email, password)
-                .then(() => {
+                .then((res) => {
+                    if (!res.additionalUserInfo) {
+                        // dispatchLoaderAction({
+                        //     type: LOADING_STOP,
+                        // });
+                        alert(res);
+                        return;
+                    }
                     let uid = firebase.auth().currentUser.uid;
-                    let profileImage = '';
-                    AddUser(name, email, uid, profileImage)
-                        .then((res) => {
-                            if (!res.additonalUserInfo) {
-                                // dispathLoaderAction({
-                                //     type: LOADING_STOP
-                                // });
-                                alert(res);
-                                return;
-                            }
+                    let profileImg = "";
+                    AddUser(name, email, uid, profileImg)
+                        .then(() => {
                             setAsyncStorage(keys.uuid, uid);
                             setUniqueValue(uid);
-                            // dispathLoaderAction({
-                            //     type: LOADING_STOP
+                            // dispatchLoaderAction({
+                            //     type: LOADING_STOP,
                             // });
-                            navigation.replace('Dashboard');
+                            navigation.replace("Dashboard");
                         })
                         .catch((err) => {
-                            // dispathLoaderAction({
-                            //     type: LOADING_STOP
+                            // dispatchLoaderAction({
+                            //     type: LOADING_STOP,
                             // });
                             alert(err);
-                        })
+                        });
                 })
                 .catch((err) => {
-                    // dispathLoaderAction({
-                    //     type: LOADING_STOP
+                    // dispatchLoaderAction({
+                    //     type: LOADING_STOP,
                     // });
                     alert(err);
-                })
+                });
         }
     }
 
