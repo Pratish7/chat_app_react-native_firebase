@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { KeyboardAvoidingView, SafeAreaView, Text, View } from 'react-native';
+import { KeyboardAvoidingView, SafeAreaView, Text, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import colors from '../../utility/colors/colors';
 import globalStyle from '../../utility/style/globalStyle';
 import Logo from '../../component/logo/logo'
@@ -19,32 +19,31 @@ const Signup = ({ navigation }) => {
     // const globalState = useContext(Store);
     // const { dispatchLoaderAction } = globalState;
 
-    const [showLogo, toggleLogo] = useState(true);
-
-    const [credentials, setCreadentials] = useState({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
+    const [credential, setCredential] = useState({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
     });
 
-    const { name, email, password, confirmPassword } = credentials;
+    const [logo, toggleLogo] = useState(true);
+    const { email, password, confirmPassword, name } = credential;
 
-    const onChangeHandeler = (name, value) => {
-        setCreadentials({
-            ...credentials,
-            [name]: value
-        });
-
+    const setInitialState = () => {
+        setCredential({ email: "", password: "", confirmPassword: "" });
     };
 
-    const signupPressHandeler = () => {
-        if (!name) alert('Name can\'t be blank');
-        else if (!email) alert('Email can\'t be blank');
-        else if (!password) alert('Password can\'t be blank');
-        else if (!confirmPassword) alert('Confirm Password can\'t be blank');
-        else if (password !== password) alert('Passwords didn\'t match')
-        else {
+    const onSignUpPress = () => {
+        Keyboard.dismiss();
+        if (!name) {
+            alert("Name is required");
+        } else if (!email) {
+            alert("Email is required");
+        } else if (!password) {
+            alert("Password is required");
+        } else if (password !== confirmPassword) {
+            alert("Password did not match");
+        } else {
             // dispatchLoaderAction({
             //     type: LOADING_START,
             // });
@@ -82,80 +81,98 @@ const Signup = ({ navigation }) => {
                     alert(err);
                 });
         }
-    }
+    };
 
-    const focusHandeler = () => {
+    const handleOnChange = (name, value) => {
+        setCredential({
+            ...credential,
+            [name]: value,
+        });
+    };
+
+    const handleFocus = () => {
         setTimeout(() => {
             toggleLogo(false);
         }, 200);
-    }
+    };
 
-    const blurHandeler = () => {
+    const handleBlur = () => {
         setTimeout(() => {
             toggleLogo(true);
         }, 200);
-    }
-
+    };
+    
     return (
         <KeyboardAvoidingView
-            style={[globalStyle.flex1, { backgroundColor: colors.BLACK }]}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={keyboardVerticalOffset}
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+            style={[globalStyle.flex1, { backgroundColor: colors.BLACK }]}
         >
-            {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-            <SafeAreaView style={[globalStyle.flex1, { backgroundColor: colors.BLACK }]}>
-                {
-                    showLogo && (
-                        <View style={[globalStyle.containerCentered]} >
-                            <Logo />
-                        </View>
-                    )
-                }
-                <View style={[globalStyle.flex2, globalStyle.sectionCentered]}>
-                    <InputField
-                        placeholder='Name'
-                        value={name}
-                        onChangeText={(text) => onChangeHandeler('name', text)}
-                        onFocus={() => focusHandeler()}
-                        onBlur={() => blurHandeler()}
-                    />
-                    <InputField
-                        placeholder='Email'
-                        value={email}
-                        onChangeText={(text) => onChangeHandeler('email', text)}
-                        onFocus={() => focusHandeler()}
-                        onBlur={() => blurHandeler()}
-                    />
-                    <InputField
-                        placeholder='Password'
-                        secureTextEntry={true}
-                        value={password}
-                        onChangeText={(text) => onChangeHandeler('password', text)}
-                        onFocus={() => focusHandeler()}
-                        onBlur={() => blurHandeler()}
-                    />
-                    <InputField
-                        placeholder='Confirm password'
-                        secureTextEntry={true}
-                        value={confirmPassword}
-                        onChangeText={(text) => onChangeHandeler('confirmPassword', text)}
-                        onFocus={() => focusHandeler()}
-                        onBlur={() => blurHandeler()}
-                    />
-                    <Button title='Sign Up' onPress={() => signupPressHandeler()} />
-                    <Text style={{
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        color: colors.LIGHT_GREEN
-                    }}
-                        onPress={() => navigation.navigate('Login')}>
-                        Login
-                </Text>
-                </View>
-            </SafeAreaView>
-            {/* </TouchableWithoutFeedback> */}
-        </KeyboardAvoidingView>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <SafeAreaView style={{ flex: 1, backgroundColor: colors.BLACK }}>
+                    {
+                        logo && (
+                            <View style={[globalStyle.containerCentered]}>
+                                <Logo />
+                            </View>
+                        )}
+                    <View style={[globalStyle.flex2, globalStyle.sectionCentered]}>
+                        <InputField
+                            placeholder="Enter name"
+                            value={name}
+                            onChangeText={(text) => handleOnChange("name", text)}
+                            onFocus={() => handleFocus()}
+                            onBlur={() => handleBlur()}
+                        />
 
+                        <InputField
+                            placeholder="Enter email"
+                            value={email}
+                            onChangeText={(text) => handleOnChange("email", text)}
+                            onFocus={() => handleFocus()}
+                            onBlur={() => handleBlur()}
+                        />
+
+                        <InputField
+                            placeholder="Enter password"
+                            secureTextEntry={true}
+                            value={password}
+                            onChangeText={(text) => handleOnChange("password", text)}
+                            onFocus={() => handleFocus()}
+                            onBlur={() => handleBlur()}
+                        />
+
+                        <InputField
+                            placeholder="Confirm Password"
+                            secureTextEntry={true}
+                            value={confirmPassword}
+                            onChangeText={(text) => handleOnChange("confirmPassword", text)}
+                            onFocus={() => handleFocus()}
+                            onBlur={() => handleBlur()}
+                        />
+
+                        <Button
+                            title="Sign Up"
+                            onPress={() => onSignUpPress()}
+                        />
+
+                        <Text
+                            style={{
+                                fontSize: 28,
+                                fontWeight: "bold",
+                                color: colors.LIGHT_GREEN,
+                            }}
+                            onPress={() => {
+                                setInitialState();
+                                navigation.navigate("Login");
+                            }}
+                        >
+                            Login
+                        </Text>
+                    </View>
+                </SafeAreaView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 };
 
