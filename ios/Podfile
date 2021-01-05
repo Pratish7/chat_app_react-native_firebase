@@ -8,6 +8,10 @@ target 'firechat' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
   target 'firechatTests' do
     inherit! :complete
     # Pods for testing

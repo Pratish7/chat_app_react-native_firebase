@@ -1,4 +1,5 @@
 import firebase from '../../firebase/firebase'
+
 export const AddUser = async (name, email, uid, profileImage) => {
     try {
         return await firebase.database().ref('users/'+uid).set({
@@ -11,3 +12,16 @@ export const AddUser = async (name, email, uid, profileImage) => {
         return error;
     }
 };
+
+export const updateUser = async(uuid, imgSource) => {
+    try {
+        return await firebase
+        .database()
+        .ref('users/' + uuid)
+        .update({
+            profileImg: imgSource
+        });
+    } catch (error) {   
+        return error;
+    }
+}

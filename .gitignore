@@ -55,5 +55,9 @@ buck-out/
 # Bundle artifact
 *.jsbundle
 
+google-services.json
+details.js
+my-upload-key.keystore
+
 # CocoaPods
 /ios/Pods/

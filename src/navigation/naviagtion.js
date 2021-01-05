@@ -6,6 +6,7 @@ import Signup from '../container/signup/signup';
 import Dashboard from '../container/dashboard/dashboard';
 import colors from '../utility/colors/colors';
 import Splash from '../container/splash/splash';
+import Chat from '../container/chat/chat'; 
 
 const Stack = createStackNavigator();
 
@@ -40,6 +41,10 @@ function NavContainer() {
                 <Stack.Screen
                     name='Dashboard'
                     component={Dashboard}
+                    options={{ headerLeft: null }} />
+                <Stack.Screen
+                    name='Chat'
+                    component={Chat}
                     options={{ headerLeft: null }} />
             </Stack.Navigator>
         </NavigationContainer>
