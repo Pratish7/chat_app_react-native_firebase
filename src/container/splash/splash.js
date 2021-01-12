@@ -25,7 +25,7 @@ const Splash = ({ navigation }) => {
         return () => clearTimeout(redirect);
     }, [navigation]);
     return (
-        <View style={[globalStyle.containerCentered, { backgroundColor: colors.BLACK }]}>
+        <View style={[globalStyle.containerCentered, { backgroundColor: colors.WHITE }]}>
             <Logo />
         </View>
     );
