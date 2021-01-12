@@ -6,7 +6,8 @@ import Signup from '../container/signup/signup';
 import Dashboard from '../container/dashboard/dashboard';
 import colors from '../utility/colors/colors';
 import Splash from '../container/splash/splash';
-import Chat from '../container/chat/chat'; 
+import Chat from '../container/chat/chat';
+import ShowFullImg from '../container/showFullImg/showFullImg'
 
 const Stack = createStackNavigator();
 
@@ -41,11 +42,26 @@ function NavContainer() {
                 <Stack.Screen
                     name='Dashboard'
                     component={Dashboard}
-                    options={{ headerLeft: null }} />
+                    options={{
+                        title: 'Firechat',
+                        headerLeft: null,
+                        headerStyle: {
+                            backgroundColor: colors.BLUE,
+                        },
+                    }} />
                 <Stack.Screen
                     name='Chat'
                     component={Chat}
-                    options={{ headerLeft: null }} />
+                    options={{
+                        headerLeft: null,
+                        headerStyle: {
+                            backgroundColor: colors.DARK_BLUE,
+                        }
+                    }} />
+                <Stack.Screen
+                    name='ShowFullImg'
+                    component={ShowFullImg}
+                    options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );

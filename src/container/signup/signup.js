@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { KeyboardAvoidingView, SafeAreaView, Text, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { KeyboardAvoidingView, SafeAreaView, Text, View, TouchableWithoutFeedback, Keyboard, StatusBar } from 'react-native';
 import colors from '../../utility/colors/colors';
 import globalStyle from '../../utility/style/globalStyle';
 import Logo from '../../component/logo/logo'
@@ -101,15 +101,17 @@ const Signup = ({ navigation }) => {
             toggleLogo(true);
         }, 200);
     };
-    
+
     return (
         <KeyboardAvoidingView
             keyboardVerticalOffset={keyboardVerticalOffset}
             behavior={Platform.OS == "ios" ? "padding" : "height"}
-            style={[globalStyle.flex1, { backgroundColor: colors.BLACK }]}
+            style={[globalStyle.flex1, { backgroundColor: colors.WHITE }]}
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <SafeAreaView style={{ flex: 1, backgroundColor: colors.BLACK }}>
+                <SafeAreaView style={{ flex: 1, backgroundColor: colors.WHITE }}>
+                    <StatusBar backgroundColor={colors.BLUE} barStyle="light-content" />
+
                     {
                         logo && (
                             <View style={[globalStyle.containerCentered]}>
@@ -117,6 +119,7 @@ const Signup = ({ navigation }) => {
                             </View>
                         )}
                     <View style={[globalStyle.flex2, globalStyle.sectionCentered]}>
+
                         <InputField
                             placeholder="Enter name"
                             value={name}
@@ -160,7 +163,7 @@ const Signup = ({ navigation }) => {
                             style={{
                                 fontSize: 28,
                                 fontWeight: "bold",
-                                color: colors.LIGHT_GREEN,
+                                color: colors.BLUE,
                             }}
                             onPress={() => {
                                 setInitialState();

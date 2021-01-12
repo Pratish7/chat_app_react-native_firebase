@@ -26,7 +26,7 @@ export default StyleSheet.create({
         height: getDimensions().height,
         width: getDimensions().width,
         borderRadius: getDimensions().borderRadius,
-        backgroundColor: colors.DARK_GRAY,
+        backgroundColor: colors.BLUE,
         alignItems: "center",
         justifyContent: "center",
     },

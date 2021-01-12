@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, Text, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, Text, View, StatusBar } from 'react-native';
 import colors from '../../utility/colors/colors';
 import globalStyle from '../../utility/style/globalStyle';
 import Logo from '../../component/logo/logo'
@@ -48,7 +48,7 @@ const login = ({ navigation }) => {
                         // dispathLoaderAction({
                         //     type: LOADING_STOP
                         // });
-                        alert(res);
+
                         //return;
                     }
                     setAsyncStorage(keys.uuid, res.user.uid);
@@ -87,7 +87,9 @@ const login = ({ navigation }) => {
             keyboardVerticalOffset={keyboardVerticalOffset}
         >
             {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-            <SafeAreaView style={[globalStyle.flex1, { backgroundColor: colors.BLACK }]}>
+            <SafeAreaView style={[globalStyle.flex1, { backgroundColor: colors.WHITE }]}>
+                <StatusBar backgroundColor={colors.BLUE} barStyle="light-content" />
+
                 {
                     showLogo && (
                         <View style={[globalStyle.containerCentered]} >
@@ -115,7 +117,7 @@ const login = ({ navigation }) => {
                     <Text style={{
                         fontSize: 20,
                         fontWeight: 'bold',
-                        color: colors.LIGHT_GREEN
+                        color: colors.BLUE
                     }}
                         onPress={() => navigation.navigate('Signup')}>
                         Sign Up

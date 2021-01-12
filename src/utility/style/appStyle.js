@@ -27,8 +27,8 @@ const getFieldDimesions = () => {
 
 
 const appStyle= {
-  fieldBgColor: colors.DARK_GRAY,
-  fieldTextColor: colors.WHITE,
+  fieldBgColor: null,
+  fieldTextColor: colors.BLACK,
   logoBgColor: colors.DARK_GRAY,
   fieldHeight: getFieldDimesions().fieldHeight,
   fieldMarginVertical: getFieldDimesions().fieldMarginVertical,

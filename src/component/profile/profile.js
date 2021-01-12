@@ -2,7 +2,7 @@ import React from "react";
 import { Image, View, Text } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import styles from "./styles";
-import globalStyle from '../../utility/style/appStyle';
+import globalStyle from '../../utility/style/globalStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import colors from "../../utility/colors/colors";
 
@@ -18,7 +18,7 @@ export default ({ img, name, onImgTap, onEditImgTap }) => (
             style={[
               globalStyle.sectionCentered,
               styles.img,
-              { backgroundColor: colors.DARK_GRAY },
+              { backgroundColor: colors.BLUE },
             ]}
           >
             <Text style={styles.name}>{name.charAt(0)}</Text>

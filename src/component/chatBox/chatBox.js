@@ -10,7 +10,6 @@ import appStyle from "../../utility/style/appStyle";
 
 const ChatBox = ({ userId, msg, img, onImgTap }) => {
   let isCurrentUser = userId === uuid ? true : false;
-  console.log(isCurrentUser, userId, uuid);
   return (
     <Card
       transparent
@@ -25,7 +24,7 @@ const ChatBox = ({ userId, msg, img, onImgTap }) => {
           isCurrentUser && {
             borderTopLeftRadius: 20,
             borderTopRightRadius: 0,
-            backgroundColor: colors.DARK_GRAY,
+            backgroundColor: colors.BLUE,
           },
         ]}
       >

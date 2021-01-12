@@ -15,5 +15,8 @@ const colors = {
     LIGHT_GREEN: "#99BA93",
     GREEN: "rgb(0,120,0)",
     BORDER_LIGHT_GREYCOLOR: "#EFE9EB",
+    BLUE: "#249cd4",
+    DARK_BLUE: "#c708d1",
+    OFF_WHITE: "#F5F5F5"
 }
 export default colors;

@@ -17,14 +17,14 @@ export default ({
     numberOfLines,
 }) => (
     <TextInput
-        style={[styles.input, inputStyle]}
+        style={[styles.input, inputStyle, {borderColor: colors.BLUE, borderWidth: 2, borderRadius:10}]}
         value={value}
         numberOfLines={numberOfLines}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
         placeholder={placeholder}
         placeholderTextColor={
-            placeholderTextColor ? placeholderTextColor : colors.WHITE
+            placeholderTextColor ? placeholderTextColor : colors.BLACK
         }
         onSubmitEditing={onSubmitEditing}
         onBlur={onBlur}
