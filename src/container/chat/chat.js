@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState, useEffect, Fragment } from "react";
-import { StyleSheet, View, Text, TextInput, SafeAreaView, FlatList, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard, PermissionsAndroid, StatusBar } from "react-native";
+import { StyleSheet, View, Text, TextInput, SafeAreaView, FlatList, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard, PermissionsAndroid, StatusBar, ActivityIndicator } from "react-native";
 import * as ImagePicker from "react-native-image-picker";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import globalStyle from '../../utility/style/globalStyle';
@@ -14,10 +14,15 @@ import { smallDeviceHeight } from "../../utility/constants/constants";
 import uploadImage from '../../network/message/image'
 
 const Chat = ({ route, navigation }) => {
+
+  const [loader, setLoader] = useState('stop');
+
   const { params } = route;
   const { name, img, imgText, guestUserId, currentUserId } = params;
+
   const [msgValue, setMsgValue] = useState("");
   const [messages, setMessages] = useState([]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: <Text>{name}</Text>,
@@ -92,19 +97,27 @@ const Chat = ({ route, navigation }) => {
             console.log('User tapped custom button: ', response.customButton);
             alert(response.customButton);
           } else {
+            setLoader('start');
             uploadImage(response.uri, response.fileName, currentUserId, guestUserId)
               .then((data) => {
                 if (data.uploadState === 'success') {
+
                   sentMsg('', currentUserId, guestUserId, data.downloadUrl)
-                    .then(() => { })
-                    .catch((err) => { alert(err) })
+                    .then(() => { setLoader('stop') })
+                    .catch((err) => {
+                      setLoader('stop');
+                      alert(err);
+                    })
 
                   recievedMsg('', currentUserId, guestUserId, data.downloadUrl)
                     .then(() => { })
                     .catch((err) => { alert(err) })
                 }
               })
-              .catch((err) => { alert(err) })
+              .catch((err) => {
+                setLoader('stop');
+                alert(err)
+              })
           }
         });
       } else {
@@ -135,19 +148,26 @@ const Chat = ({ route, navigation }) => {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
+        setLoader('start');
         uploadImage(response.uri, response.fileName, currentUserId, guestUserId)
           .then((data) => {
             if (data.uploadState === 'success') {
               sentMsg('', currentUserId, guestUserId, data.downloadUrl)
-                .then(() => { })
-                .catch((err) => { alert(err) })
+                .then(() => { setLoader('stop') })
+                .catch((err) => { 
+                  setLoader('stop');
+                  alert(err);
+                 })
 
               recievedMsg('', currentUserId, guestUserId, data.downloadUrl)
                 .then(() => { })
                 .catch((err) => { alert(err) })
             }
           })
-          .catch((err) => { alert(err) })
+          .catch((err) => { 
+            setLoader('stop');
+            alert(err);
+           })
       }
     });
 
@@ -189,36 +209,41 @@ const Chat = ({ route, navigation }) => {
               )}
             />
 
-            <View style={styles.sendMessageContainer}>
-              <TextInput
-                style={inputstyles.input}
-                placeholder="Type Here"
-                numberOfLines={10}
-                inputStyle={[styles.input, { color: colors.BLACK }]}
-                value={msgValue}
-                onChangeText={(text) => handleOnChange(text)}
-              />
-              <View style={styles.sendBtnContainer}>
-                <MaterialCommunityIcons
-                  name="camera"
-                  color={colors.BLUE}
-                  size={appStyle.fieldHeight}
-                  onPress={() => handleCamera()}
-                />
-                <MaterialCommunityIcons
-                  name="image"
-                  color={colors.BLUE}
-                  size={appStyle.fieldHeight}
-                  onPress={() => handleGallery()}
-                />
-                <MaterialCommunityIcons
-                  name="send"
-                  color={colors.BLUE}
-                  size={appStyle.fieldHeight}
-                  onPress={() => handleSend()}
-                />
-              </View>
-            </View>
+            {
+              loader === "start" ? <ActivityIndicator size={42} color={colors.BLUE} /> :
+
+                <View style={styles.sendMessageContainer}>
+                  <TextInput
+                    style={inputstyles.input}
+                    placeholder="Type Here"
+                    numberOfLines={10}
+                    inputStyle={[styles.input, { color: colors.BLACK }]}
+                    value={msgValue}
+                    onChangeText={(text) => handleOnChange(text)}
+                  />
+                  <View style={styles.sendBtnContainer}>
+                    <MaterialCommunityIcons
+                      name="camera"
+                      color={colors.BLUE}
+                      size={appStyle.fieldHeight}
+                      onPress={() => handleCamera()}
+                    />
+                    <MaterialCommunityIcons
+                      name="image"
+                      color={colors.BLUE}
+                      size={appStyle.fieldHeight}
+                      onPress={() => handleGallery()}
+                    />
+                    <MaterialCommunityIcons
+                      name="send"
+                      color={colors.BLUE}
+                      size={appStyle.fieldHeight}
+                      onPress={() => handleSend()}
+                    />
+                  </View>
+                </View>
+            }
+
           </Fragment>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

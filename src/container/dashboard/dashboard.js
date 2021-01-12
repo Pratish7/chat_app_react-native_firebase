@@ -1,5 +1,5 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
-import { StyleSheet, StatusBar, SafeAreaView, Text, Alert, View } from 'react-native';
+import { StatusBar, SafeAreaView, Text, Alert, View } from 'react-native';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import { clearAsyncStorage } from '../../asyncStorage/async';
 import LogOutUser from '../../network/logout/logout';
@@ -8,14 +8,9 @@ import firebase from '../../firebase/firebase';
 import { uuid, smallDeviceHeight } from '../../utility/constants/constants';
 import Profile from '../../component/profile/profile';
 import ShowUsers from '../../component/showUsers/showUsers';
-import { Store } from '../../context/store/store';
 import { useEffect } from 'react';
-import { LOADING_START, LOADING_STOP } from '../../context/actions/type';
-import globalStyle from '../../utility/style/globalStyle';
 import { FlatList } from 'react-native-gesture-handler';
-import { launchImageLibrary } from 'react-native-image-picker';
 import { updateUser } from '../../network/adduser/adduser';
-import appStyle from '../../utility/style/appStyle';
 import StickyHeader from '../../component/stickyHeader/stickyHeader';
 
 const Dashboard = ({ navigation }) => {

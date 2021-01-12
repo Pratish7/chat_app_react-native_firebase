@@ -1,12 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, Text, View, StatusBar } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, Text, View, StatusBar, ActivityIndicator } from 'react-native';
 import colors from '../../utility/colors/colors';
 import globalStyle from '../../utility/style/globalStyle';
 import Logo from '../../component/logo/logo'
 import InputField from '../../component/input/input';
 import Button from '../../component/button/button';
-import { LOADING_START } from '../../context/actions/type';
-import { Store } from '../../context/store/store';
 import loginRequest from '../../network/login/login';
 import { keys, setAsyncStorage } from '../../asyncStorage/async';
 import { setUniqueValue } from '../../utility/constants/constants';
@@ -15,8 +13,7 @@ import { keyboardVerticalOffset } from '../../utility/constants/constants';
 
 const login = ({ navigation }) => {
 
-    // const globalState = useContext(Store);
-    // const { dispatchLoaderAction } = globalState;
+    const [loader, setLoader] = useState('stop');
 
     const [showLogo, toggleLogo] = useState(true);
 
@@ -39,29 +36,19 @@ const login = ({ navigation }) => {
         if (!email) alert('Email can\'t be blank');
         else if (!password) alert('Password can\'t be blank');
         else {
-            // dispatchLoaderAction({
-            //     type: LOADING_START
-            // });
+            setLoader('start');
             loginRequest(email, password)
                 .then((res) => {
                     if (!res.additonalUserInfo) {
-                        // dispathLoaderAction({
-                        //     type: LOADING_STOP
-                        // });
-
-                        //return;
+                        setLoader('stop');
                     }
                     setAsyncStorage(keys.uuid, res.user.uid);
                     setUniqueValue(res.user.uid);
-                    // dispatchLoaderAction({
-                    //     type: LOADING_STOP
-                    // });
+                    setLoader('stop');
                     navigation.replace('Dashboard');
                 })
                 .catch((err) => {
-                    // dispatchLoaderAction({
-                    //     type: LOADING_STOP
-                    // });
+                    setLoader('stop');
                     alert(err);
                 })
         }
@@ -97,6 +84,7 @@ const login = ({ navigation }) => {
                         </View>
                     )
                 }
+
                 <View style={[globalStyle.flex2, globalStyle.sectionCentered]}>
                     <InputField
                         placeholder='Email'
@@ -113,7 +101,14 @@ const login = ({ navigation }) => {
                         onFocus={() => focusHandeler()}
                         onBlur={() => blurHandeler()}
                     />
-                    <Button title='Login' onPress={() => loginPressHandeler()} />
+                    {
+                        loader === "start" ? <ActivityIndicator size={72} color={colors.BLUE} /> :
+                            <Button
+                                title='Login'
+                                onPress={() => loginPressHandeler()}
+                            />
+                    }
+
                     <Text style={{
                         fontSize: 20,
                         fontWeight: 'bold',

@@ -1,13 +1,11 @@
-import React, { useState, useContext } from 'react';
-import { KeyboardAvoidingView, SafeAreaView, Text, View, TouchableWithoutFeedback, Keyboard, StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import { KeyboardAvoidingView, SafeAreaView, Text, View, TouchableWithoutFeedback, Keyboard, StatusBar, ActivityIndicator } from 'react-native';
 import colors from '../../utility/colors/colors';
 import globalStyle from '../../utility/style/globalStyle';
 import Logo from '../../component/logo/logo'
 import InputField from '../../component/input/input';
 import Button from '../../component/button/button';
 import signupRequest from '../../network/signup/signup';
-import { LOADING_STOP } from '../../context/actions/type';
-import { Store } from '../../context/store/store';
 import firebase from '../../firebase/firebase';
 import { AddUser } from '../../network/adduser/adduser';
 import { keys, setAsyncStorage } from '../../asyncStorage/async'
@@ -16,8 +14,7 @@ import { keyboardVerticalOffset } from '../../utility/constants/constants';
 
 const Signup = ({ navigation }) => {
 
-    // const globalState = useContext(Store);
-    // const { dispatchLoaderAction } = globalState;
+    const [loader, setLoader] = useState('stop');
 
     const [credential, setCredential] = useState({
         name: "",
@@ -44,15 +41,11 @@ const Signup = ({ navigation }) => {
         } else if (password !== confirmPassword) {
             alert("Password did not match");
         } else {
-            // dispatchLoaderAction({
-            //     type: LOADING_START,
-            // });
+            setLoader('start');
             signupRequest(email, password)
                 .then((res) => {
                     if (!res.additionalUserInfo) {
-                        // dispatchLoaderAction({
-                        //     type: LOADING_STOP,
-                        // });
+                        setLoader('stop');
                         alert(res);
                         return;
                     }
@@ -62,22 +55,16 @@ const Signup = ({ navigation }) => {
                         .then(() => {
                             setAsyncStorage(keys.uuid, uid);
                             setUniqueValue(uid);
-                            // dispatchLoaderAction({
-                            //     type: LOADING_STOP,
-                            // });
+                            setLoader('stop');
                             navigation.replace("Dashboard");
                         })
                         .catch((err) => {
-                            // dispatchLoaderAction({
-                            //     type: LOADING_STOP,
-                            // });
+                            setLoader('stop');
                             alert(err);
                         });
                 })
                 .catch((err) => {
-                    // dispatchLoaderAction({
-                    //     type: LOADING_STOP,
-                    // });
+                    setLoader('stop');
                     alert(err);
                 });
         }
@@ -117,7 +104,8 @@ const Signup = ({ navigation }) => {
                             <View style={[globalStyle.containerCentered]}>
                                 <Logo />
                             </View>
-                        )}
+                        )
+                    }
                     <View style={[globalStyle.flex2, globalStyle.sectionCentered]}>
 
                         <InputField
@@ -154,10 +142,13 @@ const Signup = ({ navigation }) => {
                             onBlur={() => handleBlur()}
                         />
 
-                        <Button
-                            title="Sign Up"
-                            onPress={() => onSignUpPress()}
-                        />
+                        {
+                            loader === "start" ? <ActivityIndicator size={72} color={colors.BLUE} /> :
+                                <Button
+                                    title="Sign Up"
+                                    onPress={() => onSignUpPress()}
+                                />
+                        }
 
                         <Text
                             style={{
