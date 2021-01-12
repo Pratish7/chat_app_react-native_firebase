@@ -12,7 +12,6 @@ const uploadImage = async (imgUri, fileName, currentUserId, guestUserId) => {
             .child(dateTime)
             .child(fileName)
             .putFile(imgUri);
-        console.log(upload.state);
         if (upload.state === 'success') {
             Url = await storage()
                 .ref('images')

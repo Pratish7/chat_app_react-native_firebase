@@ -92,7 +92,6 @@ const Chat = ({ route, navigation }) => {
             console.log('User tapped custom button: ', response.customButton);
             alert(response.customButton);
           } else {
-            console.log(response)
             uploadImage(response.uri, response.fileName, currentUserId, guestUserId)
               .then((data) => {
                 if (data.uploadState === 'success') {
@@ -138,7 +137,6 @@ const Chat = ({ route, navigation }) => {
       } else {
         uploadImage(response.uri, response.fileName, currentUserId, guestUserId)
           .then((data) => {
-            console.log(data);
             if (data.uploadState === 'success') {
               sentMsg('', currentUserId, guestUserId, data.downloadUrl)
                 .then(() => { })
@@ -166,7 +164,7 @@ const Chat = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={[globalStyle.flex1, { backgroundColor: colors.WHITE }]}>
-        <StatusBar backgroundColor={colors.DARK_BLUE} barStyle="light-content"/> 
+      <StatusBar backgroundColor={colors.DARK_BLUE} barStyle="light-content" />
       <KeyboardAvoidingView
         keyboardVerticalOffset={appStyle.deviceDimensions.height > smallDeviceHeight ? 100 : 70}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
